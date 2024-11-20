@@ -6,16 +6,16 @@ class CustomCard extends StatelessWidget {
   final String imageUrl;
   final String title;
 
-
   @override
   Widget build(BuildContext context) => Card(
-    elevation: 3,
+    elevation: 4,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
     ),
     child: SizedBox(
       width: 150,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
@@ -31,13 +31,20 @@ class CustomCard extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 12,
                     color: Colors.grey,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
+              ],
+            ), 
           ),
         ],
       ),

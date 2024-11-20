@@ -1,8 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_http_fetch_data/domain/models/coctail_model.dart';
-import 'package:flutter_http_fetch_data/domain/service/coctail_services.dart';
+import 'package:flutter_http_fetch_data/API/api_res.dart';
 import 'package:flutter_http_fetch_data/ui/pages/index.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,55 +11,42 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome the Coctail App'),
+        title: const Text('Coctail Home'),
       ),
-      body: Center(
-        child: FutureBuilder(
-          future: CoctailServices().getAllCoctails(), 
+      body: FutureBuilder(     
+          future: fetchCoctails(), 
           builder:(context, snapshot) {
-            final List<Coctail>? drinks = snapshot.data;
-            if( drinks != null ){
-              final List<Coctail> limitedDrinks = drinks.take(10).toList();
-              return ListView.builder(
-                itemCount: limitedDrinks.length,
-                itemBuilder: (BuildContext context,int  index) {
-                  final drink =drinks[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: CustomCard(
-                          imageUrl: drink.url.toString(), 
-                          title: drink.name.toString(),
-                        ),
+            if( snapshot.connectionState == ConnectionState.waiting){
+              return const Center(
+                child: CircularProgressIndicator()
+              );
+            }else if (snapshot.hasError) {
+              return const Center(
+                child: Text('Error fetching coctails.')
+              );
+            } else {
+              final drinks = snapshot.data as List<dynamic>;
+              return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 0.8,
+                ),
+                padding: const EdgeInsets.all(8.0),
+                itemCount: drinks.length,
+                itemBuilder: (context, index) {
+                  final drink = drinks[index];
+                  return CustomCard(
+                    imageUrl: drink['strDrinkThumb'], 
+                    title: drink['strDrink'],
                   );
-                  
                 },
               );
-            }else {
-              return const CircularProgressIndicator();
             }
           },
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        onTap:(value) {
-          
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_drink),
-            label: 'List Drinks' 
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search' 
-          )
-        ], 
-      ),
+      
     );
   }
 }
