@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_http_fetch_data/API/api_res.dart';
+import 'package:flutter_http_fetch_data/ui/pages/cocktail/widget-cocktail/image_card.dart';
+import 'package:flutter_http_fetch_data/ui/pages/index.dart';
 
 class CoctailDetailsScreen extends StatelessWidget {
   const CoctailDetailsScreen({required this.idDrink, super.key});
@@ -40,40 +42,36 @@ class CoctailDetailsScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(
-                          child: Image.network(drinkDetails['strDrinkThumb'], height: 200),
-                        ),
+                        Center(child: ImageCard(imageUrl: drinkDetails['strDrinkThumb'])),
+
                         const SizedBox(height: 16),
-                        Text(
-                          'Name: ${drinkDetails['strDrink']}',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),   
-                        ),
-                        const SizedBox(height: 16,),
-                        Text(
-                          'Description: ${drinkDetails['strDrink']}',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
+                        Header('Name: ${drinkDetails['strDrink']}'),
+                        Paragraph('Description: ${drinkDetails['strDrink']}'),
+                        
+                        const SizedBox(height: 4),
                         Text(
                           'Alcohol: ${drinkDetails['strAlcoholic'] ?? "Unknown"}',
                           style: const TextStyle(
                             fontSize: 16
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Ingredients:',
-                          style: TextStyle(
-                            fontSize: 16, 
-                            fontWeight: FontWeight.bold,
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.deepPurple,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            'Ingredientes',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
+                        const SizedBox(height: 8,),
+
                         ... _buildIngredients(drinkDetails),
                         const SizedBox(height: 16),
                         Text(
@@ -99,8 +97,8 @@ class CoctailDetailsScreen extends StatelessWidget {
                             FeedbackSelection(),
                           ],
                         ),
-                      )
-                ] 
+                      ),
+                ],
               );
             }
           }
@@ -119,7 +117,7 @@ class CoctailDetailsScreen extends StatelessWidget {
       var ingredientKey = 'strIngredient$i';
       if (drink[ingredientKey] != null && drink[ingredientKey].isNotEmpty) {
         ingredientWidgets.add(Text(
-          drink[ingredientKey],
+          '* ${drink[ingredientKey]}',
           style: const TextStyle(fontSize: 16),
         ));
       }
