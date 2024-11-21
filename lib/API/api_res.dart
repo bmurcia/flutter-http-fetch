@@ -37,3 +37,14 @@ Future<List<dynamic>> fetchCoctailsDrinksNA() async {
     throw Exception('Failed to load Non alcoholic cocktails');
   }
 }
+
+Future<Map<String, dynamic>> fetchCocktailsDetails(String idDrink) async {
+  final response = await http.get(Uri.parse('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=$idDrink'));
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    return data['drinks'][0];
+  } else {
+    throw Exception('Failed to load cocktail details');
+  }
+}

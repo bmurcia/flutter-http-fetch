@@ -90,7 +90,7 @@ class ListDrinksScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFF7FB3D5),
+                    color: const Color(0xFF7FB3D5),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.all(8.0),
