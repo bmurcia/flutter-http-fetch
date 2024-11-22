@@ -132,11 +132,57 @@ class FeedbackSelection extends StatefulWidget {
 
   @override
   State<FeedbackSelection> createState() => _FeedbackSelectionState();
+
 }
 
 class _FeedbackSelectionState extends State<FeedbackSelection> {
+String? _selectedFeedback;
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [
+        RadioListTile(
+          title: const Text('Excellent'),
+          value: 'Excellent', 
+          groupValue: _selectedFeedback, 
+          onChanged: (value){
+            setState(() {
+              _selectedFeedback = value;
+            });
+          }
+        ),
+        RadioListTile(
+          title: const Text('Good'),
+          value: 'Good', 
+          groupValue: _selectedFeedback, 
+          onChanged: (value){
+            setState(() {
+              _selectedFeedback = value;
+            });
+          }
+        ),
+        RadioListTile(
+          title: const Text('Average'),
+          value: 'Average', 
+          groupValue: _selectedFeedback, 
+          onChanged: (value){
+            setState(() {
+              _selectedFeedback = value;
+            });
+          }
+        ),
+        RadioListTile(
+          title: const Text('Poor'),
+          value: 'Poor', 
+          groupValue: _selectedFeedback, 
+          onChanged: (value){
+            setState(() {
+              _selectedFeedback = value;
+            });
+          }
+        )
+      ],
+    );
   }
 }
